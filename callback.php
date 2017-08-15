@@ -2,6 +2,7 @@
 	if(!session_id()){
 		session_start();
 	}
+	ob_start();
 	require_once __DIR__ . "/Facebook/autoload.php";
 	
 	$fb = new Facebook\Facebook([
@@ -73,6 +74,6 @@
 
 	// User is logged in with a long-lived access token.
 	// You can redirect them to a members-only page.
-	header('Location: http://local.rtcampproj.com/home.php');
+	header('Location: http://local.rtcampproj.com/index.php');
 
 ?>

@@ -1,34 +1,47 @@
 <?php
-	if(!session_id()){
-		session_start();
-	}
-
-	require_once __DIR__ . "/Facebook/autoload.php";
+	require "common.php";
 	
-	$fb = new Facebook\Facebook([
-	  'app_id' => '452345461790574',
-	  'app_secret' => '1be44d0b8951900c03a9e67b57d8174e',
-	  'default_graph_version' => 'v2.9',
-	  ]);
-
-	try {
-	  // Returns a `Facebook\FacebookResponse` object
-	  $response = $fb->get('/me?fields=id,name,gender,birthday,picture,cover', $_SESSION['fb_access_token']);
-	} catch(Facebook\Exceptions\FacebookResponseException $e) {
-	  echo 'Graph returned an error: ' . $e->getMessage();
-	  exit;
-	} catch(Facebook\Exceptions\FacebookSDKException $e) {
-	  echo 'Facebook SDK returned an error: ' . $e->getMessage();
-	  exit;
-	}
-
 	$user = $response->getGraphUser();
-	print_r($user);
+	//var_dump($user);
 	echo '<br/>Name: '.$user['name'].'<br/>';
 	echo 'Gender: '.$user['gender'].'<br/>';
-	echo 'DOB: '.$user['birthday'].'<br/>';
+	echo 'DOB: '.$user['birthday']->format('d/m/Y').'<br/>';
 	echo '<img src="'.$user['picture']['url'].'"/><br/>';
 	echo '<img src="'.$user['cover']['source'].'"/><br/>';
-	// OR
-	// echo 'Name: ' . $user->getName();
+	echo '<br/><br/>';
+
+	$albums = $fb->get('/me/albums',$_SESSION['fb_access_token'])->getGraphEdge()->asArray();
+
+	foreach ($albums as $album) {
+		echo '<input type="hidden" id="hdnalbumid" value="'.$album['id'].'"/>';
+		echo '<a id="slider" href="#">'.$album['name'].'</a>&nbsp;<input type="button" id="download" value="Download">&nbsp;|&nbsp;';
+	}
+
+	echo '<div id="slid"></div>';
+	
 ?>
+<script src='assets/js/jquery-3.1.1.min.js' type="text/javascript"></script>
+<script type="text/javascript">
+	$('#download').click(function() {
+
+		$.ajax({
+		  type: "POST",
+		  url: "download.php",
+		  data: { albumid: $('#hdnalbumid').val() }
+		}).done(function( msg ) {
+		  alert( "Data Saved: " + msg.d );
+		});    
+
+    });
+
+    $("#slider").click(function() {
+    	$.ajax({
+    		type: "POST",
+    		url: "slider.php",
+    		data: { albumid: $('#hdnalbumid').val() }
+    	}).done(function(msg) {
+    		$("#slid").empty();
+    		$("#slid").html(msg);
+    	});
+    });
+</script>
