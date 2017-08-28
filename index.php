@@ -1,7 +1,27 @@
 <?php
-	require "common.php";
+	require_once "common.php";
+	require_once "googleloginfunc.php";
 	
 	$user = $response->getGraphUser();
+
+	header('Content-Type: text/html; charset=utf-8');
+
+	global $CLIENT_ID, $CLIENT_SECRET, $REDIRECT_URI;
+	$client = new Google_Client();
+	$client->setClientId($CLIENT_ID);
+	$client->setClientSecret($CLIENT_SECRET);
+	$client->setRedirectUri($REDIRECT_URI);
+	$client->setScopes('email');
+
+	if(!isset($_COOKIE['credentials']) && isset($_GET['code'])){
+		$authUrl = $client->createAuthUrl();	
+		getCredentials($_GET['code'], $authUrl);
+		$userName = $_SESSION["userInfo"]["name"];
+		$userEmail = $_SESSION["userInfo"]["email"];
+		header('Location: http://local.rtcampproj.com/index.php?code='.$_GET['code']);
+	}
+
+
 ?>
 <!DOCTYPE html>
 <html class="no-js">
@@ -121,7 +141,6 @@
 				    scrollTop: $('#down').offset().top - 80
 					}, 1000);
 				});    
-
 		    });
 
 	    	$(".downloadselected").click(function() {
@@ -154,6 +173,69 @@
 				});
 	    	});
 
+			$('.moveall').click(function() {
+				var username = $(".username").html();
+				var getall=1;
+				$.ajax({
+					type: "POST",
+					url: "move.php",
+					data: { getall: getall, username: username },
+					beforeSend:function(){
+					  	$("#overlay").show();
+					  },
+					  complete:function(){
+					  	$("#overlay").hide();
+					  }
+				}).done(function(msg) {
+					alert("Data Moved");
+				})
+			});
+
+	    	$('.move').click(function() {
+	    		var username = $(".username").html();
+				var albumid = $(this).attr('id').split('/');
+				$.ajax({
+				  type: "POST",
+				  url: "move.php",
+				  data: { albumid: albumid[0], albumname: albumid[1], username: username },
+				  beforeSend:function(){
+				  	$("#overlay").show();
+				  },
+				  complete:function(){
+				  	$("#overlay").hide();
+				  }
+				}).done(function( msg ) {
+				  alert( "Data Moved");
+				});    
+		    });
+
+		    $(".moveselected").click(function() {
+		    	var username = $(".username").html();
+	    		var albumids = [];
+	    		var albumnames = [];
+				$("input[name='chkbx[]']:checked").each(function ()
+				{
+					var albumid = $(this).attr('id').split('/');
+				    albumids.push(albumid[0]);
+				    albumnames.push(albumid[1]);
+				});
+	    		alert(albumids+"/"+albumnames);
+	    		
+	    		$.ajax({
+				  type: "POST",
+				  url: "move.php",
+				  data: { albumids: albumids, albumnames: albumnames, username:username },
+				  beforeSend:function(){
+				  	$("#overlay").show();
+				  },
+				  complete:function(){
+				  	$("#overlay").hide();
+				  }
+				}).done(function( msg ) {
+				  alert( "Data Moved");
+				});
+	    	});
+
 		    $("#logout").click(function() {
 		    	$.ajax({
 		    		type: "POST",
@@ -175,15 +257,15 @@
 		        <div class="navbar-header">
 		        	<!-- Mobile Toggle Menu Button -->
 					<a href="#" class="js-fh5co-nav-toggle fh5co-nav-toggle" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"><i></i></a>
-		         <a class="navbar-brand" href="index.php"><?php echo $user['name'];?></a> 
+		         <a class="username navbar-brand" href="index.php"><?php echo $user['name'];?></a> 
 		        </div>
 		        <div id="navbar" class="navbar-collapse collapse">
 		          <ul class="nav navbar-nav navbar-right">
 		            <li class="active"><a href="#" data-nav-section="albums"><span>Albums</span></a></li>
 		            <li><a href="#" class="downloadall"><span>Download All</span></a></li>
 		            <li><a href="#" class="downloadselected"><span>Download Selected</span></a></li>
-		            <li><a href="#"><span>Move</span></a></li>
-		            <li><a href="#"><span>Move Selected</span></a></li>
+		            <li><a href="#" class="moveall"><span>Move All</span></a></li>
+		            <li><a href="#" class="moveselected"><span>Move Selected</span></a></li>
 		            <li><a id="logout" href="#"><span>Logout</span></a></li>
 		          </ul>
 		        </div>
@@ -224,7 +306,23 @@
 						<h2><a id="<?php echo $album['id'];?>" href="slider.php?id=<?php echo $album['id'];?>" class="slider"><?php echo $album['name'];?></a></h2>
 						<div id="progress"></div>
 						<br/>
-						<p><a id="<?php echo $album['id']."/".$album['name'];?>" href="#" class="download btn btn-primary">Download</a><a href="google-login.php" class="btn btn-primary">Move</a></p>
+						<p>
+							<a id="<?php echo $album['id']."/".$album['name'];?>" href="#" class="download btn btn-primary">Download</a>
+							<?php
+								if(isset($_COOKIE['credentials'])){
+							?>
+							<a id="<?php echo $album['id']."/".$album['name'];?>" class="move btn btn-primary">Move</a>
+							<?php
+								}
+								else{
+							?>
+							<p>
+								<a href="<?php echo getAuthorizationUrl("", "");?>">Login </a>with google for moving your albums to your drive.
+							</p>
+							<?php
+								}
+							?>
+						</p>
 					</div>
 				</div>
 				<?php

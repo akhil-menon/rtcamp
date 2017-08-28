@@ -19,12 +19,10 @@
     <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
     <title>Amazing Slider</title>
     
-    <!-- Insert to your webpage before the </head> -->
     <script src="resources/sliderengine/jquery.js"></script>
     <script src="resources/sliderengine/amazingslider.js"></script>
     <link rel="stylesheet" type="text/css" href="resources/sliderengine/amazingslider-1.css">
     <script src="resources/sliderengine/initslider-1.js"></script>
-    <!-- End of head section HTML codes -->
     
     <style type="text/css">
         body, html {
@@ -38,7 +36,6 @@
 </head>
 <body>
     
-    <!-- Insert to your webpage where you want to display the slider -->
     <div id="amazingslider-wrapper-1" style="display:block;position:relative;max-width:100%;height:100%;margin:0 auto;">
         <div id="amazingslider-1" style="display:block;position:relative;margin:0 auto;">
             <ul class="amazingslider-slides" style="display:none;">
@@ -54,7 +51,6 @@
             </ul>
         </div>
     </div>
-    <!-- End of body section HTML codes -->
     
 </body>
 </html>
