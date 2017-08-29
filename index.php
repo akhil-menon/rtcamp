@@ -18,7 +18,7 @@
 		getCredentials($_GET['code'], $authUrl);
 		$userName = $_SESSION["userInfo"]["name"];
 		$userEmail = $_SESSION["userInfo"]["email"];
-		header('Location: http://local.rtcampproj.com/index.php?code='.$_GET['code']);
+		header('Location: https://rtcampfb.herokuapp.com/index.php?code='.$_GET['code']);
 	}
 
 
@@ -242,7 +242,7 @@
 		    		url: "logout.php",
 		    		data: { logout: 1 }
 		    	}).done(function(msg) {
-		    		window.location="http://local.rtcampproj.com/login.php";
+		    		window.location=" https://rtcampfb.herokuapp.com/login.php";
 	    		});
 	    	});
 		});

@@ -74,6 +74,6 @@
 
 	// User is logged in with a long-lived access token.
 	// You can redirect them to a members-only page.
-	header('Location: http://local.rtcampproj.com/index.php');
+	header('Location: https://rtcampfb.herokuapp.com/index.php');
 
 ?>

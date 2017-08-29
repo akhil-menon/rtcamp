@@ -3,7 +3,7 @@
 		session_start();
 	}
 	if(!isset($_SESSION['fb_access_token'])){
-		header('Location: http://local.rtcampproj.com/login.php');
+		header('Location: https://rtcampfb.herokuapp.com/login.php');
 	}
 	require_once __DIR__ . "/Facebook/autoload.php";
 	

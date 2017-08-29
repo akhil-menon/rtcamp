@@ -12,7 +12,7 @@
 	$helper = $fb->getRedirectLoginHelper();
 
 	$permissions = ['email'];
-	$loginUrl = $helper->getLoginUrl('http://local.rtcampproj.com/callback.php', $permissions);
+	$loginUrl = $helper->getLoginUrl('https://rtcampfb.herokuapp.com/callback.php', $permissions);
 ?>
 <!DOCTYPE html>
 <html class="no-js">
