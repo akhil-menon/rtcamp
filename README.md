@@ -37,3 +37,18 @@ Importance
 An clear responsive application which is works on Desktop, Tablets and mobile. Works on code optimization(make functions whenever need). Mobile/Tablet users having move and download links available at top even he/she scroll down at the bottom of the page. Mobile/Tablet users also having "Zip Download Link" available on screen even he/she scroll down at the bottom of the page.
 
 Platform: PHP
+
+
+Library Used:
+
+Facebook PHP SDK:
+
+The Facebook SDK for PHP provides developers with a modern, native library for accessing the Graph API and taking advantage of Facebook Login. Usually this means you're developing with PHP for a Facebook Canvas app, building your own website, or adding server-side functionality to an app. More information and examples: https://developers.facebook.com/docs/reference/php/4.0.0
+
+Google Drive api v2:
+
+The Google Drive api for php client gives you a secure way to interact with google drive, letting you create,delete folders and uploading files to folders.More information and examples: https://developers.google.com/drive/v2/web/quickstart/php
+
+Scripting Languages: Jquery Ajax
+
+Styling: Css
