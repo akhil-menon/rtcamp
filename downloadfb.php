@@ -3,15 +3,20 @@
 		session_start();
 	}
 	require_once __DIR__ . "/Facebook/autoload.php";
-	require_once __DIR__ . "/common.php";
+
+	$fb = new Facebook\Facebook([
+	  'app_id' => '452345461790574',
+	  'app_secret' => '1be44d0b8951900c03a9e67b57d8174e',
+	  'default_graph_version' => 'v2.9',
+	  ]);
 
 	$session = $_SESSION['fb_access_token'];
 	$dtype = 0;
 
 	//uniqid() : to prevent the exception of folder already exists	
-	$album_download_directory = 'resources/albums/'.uniqid();
+	$album_download_directory = 'resources/albums/'.uniqid().'/';
 	mkdir($album_download_directory, 0777);
-	
+
 	if(isset($_POST['albumid'])){
 		//download single album
 		downloadalbum($dtype,$fb,$_POST['albumid'],$session,$_POST['albumname'],$album_download_directory);
@@ -31,7 +36,7 @@
 
 	if(isset($_POST['albumids']) && isset($_POST['albumnames'])){
 		$dtype = 1;
-		$dest = __DIR__ . '/resources/albums/facebook';
+		$dest = 'resources/albums/facebook';
 
 		//download selected albums
 		$albumid = $_POST['albumids'];
@@ -46,10 +51,10 @@
 
 		deleteDir($album_download_directory);
 
-		rmdir_recursive(__DIR__ . "/resources/albums/facebook");
+		rmdir_recursive("resources/albums/facebook");
 
 		?>
-		To Download <a href="<?php echo __DIR__ . "/resources/albums/facebook.zip";?>" download>Click Here</a>	
+		To Download <a href="<?php echo "resources/albums/facebook.zip";?>" download>Click Here</a>	
 		<?php
 	}
 
@@ -76,7 +81,7 @@
 
 	function downloadalbum($dtype,$fb,$albumid,$session,$albumname,$album_download_directory){
 		$album_directory = $album_download_directory.$albumname;
-
+		
 		//checks whether the file already exists or not
 		if ( !file_exists( $album_directory ) ) {
 			mkdir($album_directory, 0777);

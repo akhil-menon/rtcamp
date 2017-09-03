@@ -9,5 +9,5 @@
 		    setcookie('credentials', '', time() - 3600, '/');
 		}
 	}
-	header('Location: https://rtcampfb.herokuapp.com/login.php');
+	header('Location: http://local.rtcampproj.com/login.php');
 ?>

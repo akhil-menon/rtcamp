@@ -9,7 +9,7 @@ $json = json_decode(file_get_contents(__DIR__."/google-api-php-client/client_sec
 
 $CLIENT_ID = $json['web']['client_id'];
 $CLIENT_SECRET = $json['web']['client_secret'];
-$REDIRECT_URI = $json['web']['redirect_uris'][5];
+$REDIRECT_URI = $json['web']['redirect_uris'][0];
 
 // Set the scopes you need
 $SCOPES = array(

@@ -1,4 +1,8 @@
 <?php
+	if(!session_id()){
+		session_start();
+	}
+	
 	require_once "common.php";
 	require_once "googleloginfunc.php";
 	
@@ -18,7 +22,7 @@
 		getCredentials($_GET['code'], $authUrl);
 		$userName = $_SESSION["userInfo"]["name"];
 		$userEmail = $_SESSION["userInfo"]["email"];
-		header('Location: https://rtcampfb.herokuapp.com/index.php?code='.$_GET['code']);
+		header('Location: http://local.rtcampproj.com/index.php?code='.$_GET['code']);
 	}
 
 
@@ -104,7 +108,7 @@
 				var getall=1;
 				$.ajax({
 					type: "POST",
-					url: "download.php",
+					url: "downloadfb.php",
 					data: { getall: getall },
 					beforeSend:function(){
 					  	$("#overlay").show();
@@ -126,7 +130,7 @@
 				//alert(albumid[1]);
 				$.ajax({
 				  type: "POST",
-				  url: "download.php",
+				  url: "downloadfb.php",
 				  data: { albumid: albumid[0], albumname: albumid[1] },
 				  beforeSend:function(){
 				  	$("#overlay").show();
@@ -156,7 +160,7 @@
 	    		
 	    		$.ajax({
 				  type: "POST",
-				  url: "download.php",
+				  url: "downloadfb.php",
 				  data: { albumids: albumids, albumnames: albumnames },
 				  beforeSend:function(){
 				  	$("#overlay").show();
@@ -242,7 +246,7 @@
 		    		url: "logout.php",
 		    		data: { logout: 1 }
 		    	}).done(function(msg) {
-		    		window.location=" https://rtcampfb.herokuapp.com/login.php";
+		    		window.location=" http://local.rtcampproj.com/login.php";
 	    		});
 	    	});
 		});
