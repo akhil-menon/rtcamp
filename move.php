@@ -1,8 +1,8 @@
 <?php
 require_once "common.php";
 require_once "googleloginfunc.php";
-require_once __DIR__ . "/Facebook/autoload.php";
-require_once __DIR__."/google-api-php-client/src/Google/Service/Drive.php";
+require_once __DIR__ . "/lib/Facebook/autoload.php";
+require_once __DIR__."/lib/google-api-php-client/src/Google/Service/Drive.php";
 
 //fb details for photo fetching from album
 $fb = new Facebook\Facebook([

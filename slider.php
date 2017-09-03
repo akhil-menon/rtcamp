@@ -2,8 +2,8 @@
     if(!session_id()){
         session_start();
     }
-    require_once __DIR__ . "/Facebook/autoload.php";
-    require_once __DIR__ . "/common.php";
+    require_once __DIR__ . "/lib/Facebook/autoload.php";
+    require_once __DIR__ . "/lib/common.php";
 
     $session = $_SESSION['fb_access_token'];
     

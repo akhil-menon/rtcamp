@@ -1,11 +1,11 @@
 <?php 
-require_once __DIR__.'/google-api-php-client/src/Google/Client.php';
-require_once __DIR__."/google-api-php-client/src/Google/Service/Oauth2.php";
+require_once __DIR__.'/lib/google-api-php-client/src/Google/Client.php';
+require_once __DIR__."/lib/google-api-php-client/src/Google/Service/Oauth2.php";
 
 header('Content-Type: text/html; charset=utf-8');
 
 // Get your app info from JSON downloaded from google dev console
-$json = json_decode(file_get_contents(__DIR__."/google-api-php-client/client_secret.json"), true);
+$json = json_decode(file_get_contents(__DIR__."/lib/google-api-php-client/client_secret.json"), true);
 
 $CLIENT_ID = $json['web']['client_id'];
 $CLIENT_SECRET = $json['web']['client_secret'];

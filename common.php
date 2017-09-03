@@ -5,7 +5,7 @@
 	if(!isset($_SESSION['fb_access_token'])){
 		header('Location: http://local.rtcampproj.com/login.php');
 	}
-	require_once __DIR__ . "/Facebook/autoload.php";
+	require_once __DIR__ . "/lib/Facebook/autoload.php";
 	
 	$fb = new Facebook\Facebook([
 	  'app_id' => '452345461790574',
